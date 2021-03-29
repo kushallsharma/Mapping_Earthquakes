@@ -109,22 +109,28 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geoj
     	pointToLayer: function(feature, latlng) {
       		console.log(data);
       		return L.circleMarker(latlng);
-        },
+      },
       // We set the style for each circleMarker using our styleInfo function.
-    style: styleInfo,
-     // We create a popup for each circleMarker to display the magnitude and location of the earthquake
-     //  after the marker has been created and styled.
-     onEachFeature: function(feature, layer) {
-      layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
-    }
-  }).addTo(allEarthquakes);
+      style: styleInfo,
+      // We create a popup for each circleMarker to display the magnitude and location of the earthquake
+      //  after the marker has been created and styled.
+      onEachFeature: function(feature, layer) {
+        layer.bindPopup("Magnitude: " + feature.properties.mag + "<br>Location: " + feature.properties.place);
+      }
+    }).addTo(allEarthquakes);
 
   // Then we add the earthquake layer to our map.
   allEarthquakes.addTo(map);
 
 
-  // 2.3. Retrieve the major earthquake GeoJSON data >4.5 mag for the week.
-d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson").then(function(data) {
+   // Here we create a legend control object.
+let legend = L.control({
+  position: "bottomright"
+});
+
+
+ // 2.3. Retrieve the major earthquake GeoJSON data >4.5 mag for the week.
+ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson").then(function(data) {
 
   // 2.4. Use the same style as the earthquake data.
   function styleInfo(feature) {
@@ -174,17 +180,11 @@ d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geoj
   }).addTo(majorEarthquakes);
   // 2.8. Add the major earthquakes layer to the map.
   
-  majorEarthquakes.addto(map);
+  majorEarthquakes.addTo(map);
   // 2.9. Close the braces and parentheses for the major earthquake data.
-  });
-  
-
-
-
-  // Here we create a legend control object.
-let legend = L.control({
-  position: "bottomright"
 });
+
+
 
 // Then add all the details for the legend
 legend.onAdd = function() {
@@ -234,4 +234,4 @@ let tectonicData = "https://raw.githubusercontent.com/fraxen/tectonicplates/mast
       });
 
 
-});
+})
